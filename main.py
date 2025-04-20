@@ -43,6 +43,9 @@ finish = False
 clock = time.Clock()
 FPS = 60
 
+speed_x = 3
+speed_y = 3
+
 player = Player('rocket.jpg', 15, 218, 15)
 player2 = Player('rocket.jpg', 620, 217, 15)
 
@@ -50,12 +53,11 @@ while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
-    if finish == False:
-        window.blit(background, (0,0))
-        player.update()
-        player.reset()
-        player2.update()
-        player2.reset()
+    if finish != True:
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+    if ball.rect.y > win_height-50 or ball.rect.y < 0:
+        speed_y *= -1
         
     display.update()
     clock.tick(FPS)
