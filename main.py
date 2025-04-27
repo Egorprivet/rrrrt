@@ -17,19 +17,18 @@ class GameSprite(sprite.Sprite):
 # Player
 class Player(GameSprite):
     def update(self):
-        keys = key.get_pressed() 
-        if keys[K_w] and self.rect.y > 5: 
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_w] and self.rect.y >= 15:
             self.rect.y -= self.speed
-        if keys[K_s] and self.rect.y < 625: 
+        if keys_pressed[K_s] and self.rect.y <= 485:
             self.rect.y += self.speed
 
-# Players 2
-class Player2(Player):
+class Player2(GameSprite):
     def update(self):
-        keys = key.get_pressed()
-        if keys[K_UP] and self.rect.y > 5: 
+        keys_pressed = key.get_pressed()
+        if keys_pressed[K_UP] and self.rect.y >= 15:
             self.rect.y -= self.speed
-        if keys[K_DOWN] and self.rect.y < 625: 
+        if keys_pressed[K_DOWN] and self.rect.y <= 485:
             self.rect.y += self.speed
 
 # ball
@@ -38,18 +37,14 @@ class Ball(GameSprite):
         global speed_x, speed_y
         self.rect.x += speed_x
         self.rect.y += speed_y
-        if self.rect.y > 650 or self.rect.y < 0:
+        if self.rect.y >= 480 or self.rect.y <= 20:
             speed_y *= -1
-        if self.rect.x < 0:
+        if self.rect.x <= 0:
             window.blit(lose1, (200, 200))
-            game_over()
-        if self.rect.x > 500:
+            window.blit(win2, (200, 350))
+        if self.rect.x >= 700:
             window.blit(lose2, (200, 200))
-            game_over()
-
-def game_over():
-    global game
-    game = False
+            window.blit(win1, (200, 350))
 
 # Window
 window = display.set_mode((700, 500))
@@ -58,8 +53,8 @@ background = transform.scale(image.load('table.png'), (700, 500))
 
 font.init()
 font1 = font.Font(None, 35)
-win = font1.render('Player 1 win!', True, (255, 255, 255))
-lose = font1.render('Player 1 lose!', True, (180, 0, 0))
+win1 = font1.render('Player 1 win!', True, (255, 255, 255))
+lose1 = font1.render('Player 1 lose!', True, (180, 0, 0))
 
 font2 = font.Font(None, 35)
 win2 = font2.render('Player 2 win!', True, (255, 255, 255))
@@ -70,23 +65,24 @@ clock = time.Clock()
 FPS = 60
 
 
-speed_x = 3
-speed_y = 3
+speed_x = 5
+speed_y = 5
 
 # Создание  объектов
 player = Player('rocket.jpg', 15, 218, 15)
-player2 = Player2('rocket.jpg', 420, 217, 15)
-ball = Ball('ball.png', 250, 350, 0, 50, 50)
+player2 = Player2('rocket.jpg', 620, 217, 15)
+ball = Ball('ball.png', 250, 350, 40, 50, 50)
 
 game = True
 finish = False
-
+clock = time.Clock()
+FPS = 60
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
-    if not finish:
-        window.blit(background, (0, 0))
+    if finish == False:
+        window.blit(background, (0,0)) 
         player.update()
         player.reset()
         player2.update()
@@ -96,10 +92,6 @@ while game:
         if sprite.collide_rect(ball, player) or sprite.collide_rect(ball, player2):
             speed_x *= -1
 
-
-
-        display.update()
-        clock.tick(FPS)
-
-
-       
+    display.update()
+    clock.tick(60)
+    
