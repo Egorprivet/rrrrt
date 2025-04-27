@@ -52,14 +52,18 @@ def game_over():
     game = False
 
 # Window
-window = display.set_mode((500, 700))
+window = display.set_mode((700, 500))
 display.set_caption('Ping-Pong')
-background = transform.scale(image.load('table.png'), (500, 700))
+background = transform.scale(image.load('table.png'), (700, 500))
 
-
+font.init()
 font1 = font.Font(None, 35)
-lose1 = font1.render('Player 1 lose!', True, (180, 0, 0))
-lose2 = font1.render('Player 2 lose!', True, (180, 0, 0))
+win = font1.render('Player 1 win!', True, (255, 255, 255))
+lose = font1.render('Player 1 lose!', True, (180, 0, 0))
+
+font2 = font.Font(None, 35)
+win2 = font2.render('Player 2 win!', True, (255, 255, 255))
+lose2 = font2.render('Player 2 lose!', True, (180, 0, 0))
 
 # Таймер
 clock = time.Clock()
@@ -98,3 +102,4 @@ while game:
         clock.tick(FPS)
 
 
+       
