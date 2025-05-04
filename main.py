@@ -40,25 +40,30 @@ class Ball(GameSprite):
         if self.rect.y >= 480 or self.rect.y <= 20:
             speed_y *= -1
         if self.rect.x <= 0:
-            window.blit(lose1, (200, 200))
-            window.blit(win2, (200, 350))
+            window.blit(lose1, (260, 250))
+            window.blit(win2, (260, 190))
         if self.rect.x >= 700:
-            window.blit(lose2, (200, 200))
-            window.blit(win1, (200, 350))
+            window.blit(lose2, (260, 250))
+            window.blit(win1, (260, 190))
 
 # Window
 window = display.set_mode((700, 500))
 display.set_caption('Ping-Pong')
-background = transform.scale(image.load('table.png'), (700, 500))
+background = transform.scale(image.load('images.jpg'), (700, 500))
 
 font.init()
-font1 = font.Font(None, 35)
+font1 = font.Font(None, 48)
 win1 = font1.render('Player 1 win!', True, (255, 255, 255))
 lose1 = font1.render('Player 1 lose!', True, (180, 0, 0))
 
-font2 = font.Font(None, 35)
+font2 = font.Font(None, 48)
 win2 = font2.render('Player 2 win!', True, (255, 255, 255))
 lose2 = font2.render('Player 2 lose!', True, (180, 0, 0))
+
+mixer.init()
+mixer.music.load('mm.ogg')
+mixer.music.play()
+
 
 # Таймер
 clock = time.Clock()
@@ -69,8 +74,8 @@ speed_x = 5
 speed_y = 5
 
 # Создание  объектов
-player = Player('rocket.jpg', 15, 218, 15)
-player2 = Player2('rocket.jpg', 620, 217, 15)
+player = Player('pl1.png', 15, 218, 15)
+player2 = Player2('pl2.png', 620, 217, 15)
 ball = Ball('ball.png', 250, 350, 40, 50, 50)
 
 game = True
