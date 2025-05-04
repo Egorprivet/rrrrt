@@ -31,20 +31,37 @@ class Player2(GameSprite):
         if keys_pressed[K_DOWN] and self.rect.y <= 485:
             self.rect.y += self.speed
 
+a = randint(1, 2)
+
 # ball
 class Ball(GameSprite):
     def update(self):
-        global speed_x, speed_y
+        global speed_x, speed_y, score1, score2
         self.rect.x += speed_x
         self.rect.y += speed_y
         if self.rect.y >= 480 or self.rect.y <= 20:
             speed_y *= -1
         if self.rect.x <= 0:
-            window.blit(lose1, (260, 250))
-            window.blit(win2, (260, 190))
+            score2 += 1
+            self.rect.y = 218
+            self.rect.x = 318  
         if self.rect.x >= 700:
-            window.blit(lose2, (260, 250))
-            window.blit(win1, (260, 190))
+            score1 +=1
+            self.rect.y = 218
+            self.rect.x = 318 
+
+score1 = 0
+score2 = 0
+    
+def game_over():
+    if score1 >= 5 and score1 - score2 == 1:
+        window.blit(lose1, (260, 250))
+        window.blit(win2, (260, 190))
+    if score2 >= 5 and score2 - score1 == 1:
+        window.blit(lose2, (260, 250))
+        window.blit(win1, (260, 190))
+
+    
 
 # Window
 window = display.set_mode((700, 500))
@@ -69,6 +86,8 @@ mixer.music.play()
 clock = time.Clock()
 FPS = 60
 
+lost1 = 0
+lost2 = 0
 
 speed_x = 5
 speed_y = 5
@@ -87,16 +106,24 @@ while game:
         if e.type == QUIT:
             game = False
     if finish == False:
+        
         window.blit(background, (0,0)) 
+        score_1 = font1.render('Player 1 score:'+str(score1), 1, (255, 255, 255))
+        score_2 = font1.render('Player 2 score:'+str(score2), 1, (255, 255, 255))
+        window.blit(score_1, (27, 27))
+        window.blit(score_2,(403, 27))
+        
         player.update()
         player.reset()
         player2.update()
         player2.reset()
         ball.update()
         ball.reset()
+        game_over()
         if sprite.collide_rect(ball, player) or sprite.collide_rect(ball, player2):
             speed_x *= -1
-
+        
     display.update()
     clock.tick(60)
-    
+
+
