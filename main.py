@@ -54,10 +54,10 @@ score1 = 0
 score2 = 0
     
 def game_over():
-    if score1 >= 5 and score1 - score2 == 1:
+    if score1 >= 5 and score1 - score2 >= 1:
         window.blit(lose1, (260, 250))
         window.blit(win2, (260, 190))
-    if score2 >= 5 and score2 - score1 == 1:
+    if score2 >= 5 and score2 - score1 >= 1:
         window.blit(lose2, (260, 250))
         window.blit(win1, (260, 190))
 
@@ -125,5 +125,6 @@ while game:
         
     display.update()
     clock.tick(60)
+
 
 
