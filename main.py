@@ -1,6 +1,7 @@
 from pygame import *
 from random import randint
 from time import sleep
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QSpinBox, QPushButton, QVBoxLayout
 #класс спрайта
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed, size_x=65, size_y=65):
@@ -44,13 +45,48 @@ class Ball(GameSprite):
         if self.rect.x <= 0:
             score2 += 1
             self.rect.y = 218
-            self.rect.x = 318  
+            self.rect.x = 318
             sleep(1)
         if self.rect.x >= 700:
             score1 +=1
             self.rect.y = 218
             self.rect.x = 318 
             sleep(1)
+
+        
+
+class WelcomeWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Добро пожаловать")
+        self.setGeometry(600, 300, 600, 300)
+
+        welcome_text = (
+            "Добро пожаловать!В игре Ping-Pong вам предстоит сразиться с вашем товарищем, "
+            "Для управления игроком справа (игрок 1) используйте клавиши: W и S, "
+            "Для управления игроком слева (игрок 2) используйте клавиши: Up и Down."
+            "Желаю удачи!Пусть победит сильнейший!")
+        self.label = QLabel(welcome_text)
+        self.label.setWordWrap(True)
+
+        self.continue_button = QPushButton("Продолжить")
+        self.continue_button.clicked.connect(self.on_continue)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.label)
+        layout.addWidget(self.continue_button)
+        self.setLayout(layout)
+
+    def on_continue(self):
+        self.close()
+
+
+if __name__ == "__main__":
+    app = QApplication([])
+    window = WelcomeWindow()
+    window.show()
+    app.exec()
+
 
 score1 = 0
 score2 = 0
