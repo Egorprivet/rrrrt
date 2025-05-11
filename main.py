@@ -1,6 +1,6 @@
 from pygame import *
 from random import randint
-
+from time import sleep
 #класс спрайта
 class GameSprite(sprite.Sprite):
     def __init__(self, player_image, player_x, player_y, player_speed, size_x=65, size_y=65):
@@ -45,10 +45,12 @@ class Ball(GameSprite):
             score2 += 1
             self.rect.y = 218
             self.rect.x = 318  
+            sleep(1)
         if self.rect.x >= 700:
             score1 +=1
             self.rect.y = 218
             self.rect.x = 318 
+            sleep(1)
 
 score1 = 0
 score2 = 0
@@ -60,8 +62,11 @@ def game_over():
     if score2 >= 10 and score2 - score1 >= 1:
         window.blit(lose2, (260, 250))
         window.blit(win1, (260, 190))
+def pause():
+    keys_pressed = key.get_pressed()
+    if keys_pressed[K_SPACE]:
+        sleep(5)
 
-    
 
 # Window
 window = display.set_mode((700, 500))
@@ -123,6 +128,7 @@ while game:
         ball.update()
         ball.reset()
         game_over()
+        pause()
         if sprite.collide_rect(ball, player) and cooldown > 9:
             speed_x *= -1
             cooldown = 0
@@ -133,6 +139,8 @@ while game:
         
     display.update()
     clock.tick(60)
+
+
 
 
 
